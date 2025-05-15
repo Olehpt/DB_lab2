@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 
 
 builder.Services.AddDbContext<DbLab2Context>(option => option.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")
+   builder.Configuration.GetConnectionString("DefaultConnection")
 ));
 
 

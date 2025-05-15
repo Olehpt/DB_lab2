@@ -18,4 +18,10 @@ public partial class Author
     public DateOnly SignUpDate { get; set; }
 
     public int? Organization { get; set; }
+
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+    public virtual Organization? OrganizationNavigation { get; set; }
+
+    public virtual ICollection<Publication> Publications { get; set; } = new List<Publication>();
 }

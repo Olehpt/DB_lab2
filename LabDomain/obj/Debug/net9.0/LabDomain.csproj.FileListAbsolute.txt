@@ -12,3 +12,4 @@ D:\Projects\DB_lab2\LabDomain\obj\Debug\net9.0\refint\LabDomain.dll
 D:\Projects\DB_lab2\LabDomain\obj\Debug\net9.0\LabDomain.pdb
 D:\Projects\DB_lab2\LabDomain\obj\Debug\net9.0\LabDomain.genruntimeconfig.cache
 D:\Projects\DB_lab2\LabDomain\obj\Debug\net9.0\ref\LabDomain.dll
+D:\Projects\DB_lab2\LabDomain\obj\Debug\net9.0\LabDomain.sourcelink.json

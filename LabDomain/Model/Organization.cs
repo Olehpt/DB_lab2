@@ -18,4 +18,6 @@ public partial class Organization
     public DateOnly FoundedDate { get; set; }
 
     public string? Website { get; set; }
+
+    public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
 }

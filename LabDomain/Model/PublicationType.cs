@@ -10,4 +10,6 @@ public partial class PublicationType
     public string Name { get; set; } = null!;
 
     public string? Info { get; set; }
+
+    public virtual ICollection<Publication> Publications { get; set; } = new List<Publication>();
 }

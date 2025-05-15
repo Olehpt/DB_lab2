@@ -30,7 +30,7 @@ public partial class DbLab2Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=User-pk\\SQLEXPRESS; Database=DB_lab2; Trusted_Connection=True; TrustServerCertificate=True; ");
+        => optionsBuilder.UseSqlServer("Server=USER-PK\\SQLEXPRESS; Database=DB_lab2; Trusted_Connection=True; TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,15 +43,29 @@ public partial class DbLab2Context : DbContext
                 .HasColumnName("AuthorID");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Password).HasMaxLength(50);
+
+            entity.HasOne(d => d.OrganizationNavigation).WithMany(p => p.Authors)
+                .HasForeignKey(d => d.Organization)
+                .HasConstraintName("FK_Author_Organization");
         });
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Comment");
+            entity.ToTable("Comment");
 
-            entity.Property(e => e.CommentId).HasColumnName("CommentID");
+            entity.Property(e => e.CommentId)
+                .ValueGeneratedNever()
+                .HasColumnName("CommentID");
+
+            entity.HasOne(d => d.AuthorNavigation).WithMany(p => p.Comments)
+                .HasForeignKey(d => d.Author)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Comment_Author");
+
+            entity.HasOne(d => d.PublicationNavigation).WithMany(p => p.Comments)
+                .HasForeignKey(d => d.Publication)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Comment_Publication");
         });
 
         modelBuilder.Entity<Organization>(entity =>
@@ -73,6 +87,21 @@ public partial class DbLab2Context : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("PublicationID");
             entity.Property(e => e.Title).HasMaxLength(50);
+
+            entity.HasOne(d => d.AuthorNavigation).WithMany(p => p.Publications)
+                .HasForeignKey(d => d.Author)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Publication_Author");
+
+            entity.HasOne(d => d.PublicationTypeNavigation).WithMany(p => p.Publications)
+                .HasForeignKey(d => d.PublicationType)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Publication_PublicationType");
+
+            entity.HasOne(d => d.SubjectNavigation).WithMany(p => p.Publications)
+                .HasForeignKey(d => d.Subject)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Publication_Subject");
         });
 
         modelBuilder.Entity<PublicationType>(entity =>

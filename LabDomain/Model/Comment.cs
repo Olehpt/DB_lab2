@@ -14,4 +14,8 @@ public partial class Comment
     public int Author { get; set; }
 
     public int Publication { get; set; }
+
+    public virtual Author AuthorNavigation { get; set; } = null!;
+
+    public virtual Publication PublicationNavigation { get; set; } = null!;
 }

@@ -20,4 +20,12 @@ public partial class Publication
     public int PublicationType { get; set; }
 
     public int Author { get; set; }
+
+    public virtual Author AuthorNavigation { get; set; } = null!;
+
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+    public virtual PublicationType PublicationTypeNavigation { get; set; } = null!;
+
+    public virtual Subject SubjectNavigation { get; set; } = null!;
 }
