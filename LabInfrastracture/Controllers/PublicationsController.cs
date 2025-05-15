@@ -43,14 +43,13 @@ namespace LabInfrastructure.Controllers
             {
                 return NotFound();
             }
-
             return View(publication);
         }
 
         // GET: Publications/Create
         public IActionResult Create()
         {
-            ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Email");
+            ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Name");
             ViewData["PublicationType"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "Name");
             ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name");
             return View();
@@ -61,18 +60,48 @@ namespace LabInfrastructure.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PublicationId,Title,Content,PublicationDate,Views,Subject,PublicationType,Author")] Publication publication)
+        public async Task<IActionResult> Create([Bind("Title,Content,PublicationDate,Views,Subject,PublicationType,Author")] Publication publication)
         {
-            if (ModelState.IsValid)
+            if (_context.Publications.Any()) publication.PublicationId = _context.Publications.Max(a => a.PublicationId) + 1;
+            else publication.PublicationId = 1;
+
+            var existingPublication = _context.Publications.FirstOrDefault(p => p.Title == publication.Title);
+            if (existingPublication != null)
             {
-                _context.Add(publication);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("Title", "This title is already registered.");
+                ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Name", publication.Author);
+                ViewData["PublicationType"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "Name", publication.PublicationType);
+                ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", publication.Subject);
+                return View(publication);
             }
-            ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Email", publication.Author);
-            ViewData["PublicationType"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "Name", publication.PublicationType);
-            ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", publication.Subject);
-            return View(publication);
+            if (publication.PublicationDate > DateOnly.FromDateTime(DateTime.Today))
+            {
+                ModelState.AddModelError(nameof(publication.PublicationDate), "Not actual date.");
+                ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Name", publication.Author);
+                ViewData["PublicationType"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "Name", publication.PublicationType);
+                ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", publication.Subject);
+                return View(publication);
+            }
+            var mindate = new DateOnly(2000, 1, 1);
+            if (publication.PublicationDate < mindate)
+            {
+                ModelState.AddModelError(nameof(publication.PublicationDate), "Not actual date.");
+                ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Name", publication.Author);
+                ViewData["PublicationType"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "Name", publication.PublicationType);
+                ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", publication.Subject);
+                return View(publication);
+            }
+            if (publication.Views < 0)
+            {
+                ModelState.AddModelError("Views", "Views cannot be negative.");
+                ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Name", publication.Author);
+                ViewData["PublicationType"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "Name", publication.PublicationType);
+                ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", publication.Subject);
+                return View(publication);
+            }
+            _context.Add(publication);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Publications/Edit/5

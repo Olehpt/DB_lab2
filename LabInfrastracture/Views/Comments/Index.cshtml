@@ -19,10 +19,10 @@
                 @Html.DisplayNameFor(model => model.PublicationDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AuthorNavigation)
+                @Html.DisplayNameFor(model => model.Author)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PublicationNavigation)
+                @Html.DisplayNameFor(model => model.Publication)
             </th>
             <th></th>
         </tr>
@@ -37,10 +37,10 @@
                 @Html.DisplayFor(modelItem => item.PublicationDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthorNavigation.Email)
+                @Html.DisplayFor(modelItem => item.AuthorNavigation.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PublicationNavigation.Content)
+                @Html.DisplayFor(modelItem => item.PublicationNavigation.Title)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CommentId">Edit</a> |

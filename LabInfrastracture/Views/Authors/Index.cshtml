@@ -28,7 +28,7 @@
                 @Html.DisplayNameFor(model => model.SignUpDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrganizationNavigation)
+                @Html.DisplayNameFor(model => model.Organization)
             </th>
             <th></th>
         </tr>
@@ -52,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.SignUpDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrganizationNavigation.Email)
+                @Html.DisplayFor(modelItem => item.OrganizationNavigation.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |

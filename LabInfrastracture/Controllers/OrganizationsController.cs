@@ -54,8 +54,21 @@ namespace LabInfrastructure.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrganizationId,Name,Location,Info,Email,FoundedDate,Website")] Organization organization)
+        public async Task<IActionResult> Create([Bind("Name,Location,Info,Email,FoundedDate,Website")] Organization organization)
         {
+            var existingOrganization = _context.Organizations.FirstOrDefault(o => o.Email == organization.Email);
+            if (existingOrganization != null)
+            {
+                ModelState.AddModelError("Email", "An organization with this email already exists.");
+                return View(organization);
+            }
+            if (_context.Organizations.Any()) organization.OrganizationId = _context.Organizations.Max(a => a.OrganizationId) + 1;
+            else organization.OrganizationId = 1;
+            if (organization.FoundedDate > DateOnly.FromDateTime(DateTime.Today))
+            {
+                ModelState.AddModelError(nameof(organization.FoundedDate), "Not actual date.");
+                return View(organization);
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(organization);

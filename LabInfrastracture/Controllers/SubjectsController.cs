@@ -54,8 +54,16 @@ namespace LabInfrastructure.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubjectId,Name,Info")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Name,Info")] Subject subject)
         {
+            if (_context.Subjects.Any()) subject.SubjectId = _context.Subjects.Max(x => x.SubjectId) + 1;
+            else subject.SubjectId = 1;
+            var existingSubject = _context.Subjects.FirstOrDefault(x => x.Name == subject.Name);
+            if (existingSubject != null)
+            {
+                ModelState.AddModelError("Name", "Subject with this name already exists.");
+                return View(subject);
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(subject);

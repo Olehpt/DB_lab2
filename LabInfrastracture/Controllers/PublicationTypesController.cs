@@ -54,8 +54,16 @@ namespace LabInfrastructure.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PublicationTypeId,Name,Info")] PublicationType publicationType)
+        public async Task<IActionResult> Create([Bind("Name,Info")] PublicationType publicationType)
         {
+            if (_context.PublicationTypes.Any()) publicationType.PublicationTypeId = _context.PublicationTypes.Max(x => x.PublicationTypeId) + 1;
+            else publicationType.PublicationTypeId = 1;
+            var existingType = _context.PublicationTypes.FirstOrDefault(x => x.Name == publicationType.Name);
+            if (existingType != null)
+            {
+                ModelState.AddModelError("Name", "Publication type with this name already exists.");
+                return View(publicationType);
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(publicationType);

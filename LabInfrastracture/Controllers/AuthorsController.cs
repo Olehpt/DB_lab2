@@ -48,7 +48,7 @@ namespace LabInfrastructure.Controllers
         // GET: Authors/Create
         public IActionResult Create()
         {
-            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Email");
+            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Name");
             return View();
         }
 
@@ -57,15 +57,36 @@ namespace LabInfrastructure.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AuthorId,Name,Email,Password,Info,SignUpDate,Organization")] Author author)
+        public async Task<IActionResult> Create([Bind("Name,Email,Password,Info,SignUpDate,Organization")] Author author)
         {
+            var existingUser = await _context.Authors
+                 .Where(u => EF.Functions.Like(u.Email, author.Email))
+                 .FirstOrDefaultAsync();
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("Email", "This email is already registered.");
+                return View(author);
+            }
+            if (_context.Authors.Any()) author.AuthorId = _context.Authors.Max(a => a.AuthorId) + 1;
+            else author.AuthorId = 1;
+            if (author.SignUpDate > DateOnly.FromDateTime(DateTime.Today))
+            {
+                ModelState.AddModelError(nameof(author.SignUpDate), "Not actual date.");
+                return View(author);
+            }
+            var mindate = new DateOnly(2000, 1, 1);
+            if (author.SignUpDate < mindate)
+            {
+                ModelState.AddModelError(nameof(author.SignUpDate), "Not actual date.");
+                return View(author);
+            }
+            //
             if (ModelState.IsValid)
             {
                 _context.Add(author);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Email", author.Organization);
             return View(author);
         }
 
@@ -82,7 +103,7 @@ namespace LabInfrastructure.Controllers
             {
                 return NotFound();
             }
-            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Email", author.Organization);
+            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Name", author.Organization);
             return View(author);
         }
 
@@ -118,7 +139,7 @@ namespace LabInfrastructure.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Email", author.Organization);
+            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Name", author.Organization);
             return View(author);
         }
 

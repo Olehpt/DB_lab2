@@ -49,8 +49,8 @@ namespace LabInfrastructure.Controllers
         // GET: Comments/Create
         public IActionResult Create()
         {
-            ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Email");
-            ViewData["Publication"] = new SelectList(_context.Publications, "PublicationId", "Content");
+            ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Name");
+            ViewData["Publication"] = new SelectList(_context.Publications, "PublicationId", "Title");
             return View();
         }
 
@@ -61,15 +61,19 @@ namespace LabInfrastructure.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CommentId,Content,PublicationDate,Author,Publication")] Comment comment)
         {
-            if (ModelState.IsValid)
+            if (_context.Comments.Any()) comment.CommentId = _context.Comments.Max(c => c.CommentId) + 1;
+            else comment.CommentId = 1;
+            var mindate = new DateOnly(2000, 1, 1);
+            if (comment.PublicationDate > DateOnly.FromDateTime(DateTime.Today) || comment.PublicationDate < mindate)
             {
-                _context.Add(comment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(nameof(comment.PublicationDate), "Not actual date.");
+                ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Name", comment.Author);
+                ViewData["Publication"] = new SelectList(_context.Publications, "PublicationId", "Title", comment.Publication);
+                return View(comment);
             }
-            ViewData["Author"] = new SelectList(_context.Authors, "AuthorId", "Email", comment.Author);
-            ViewData["Publication"] = new SelectList(_context.Publications, "PublicationId", "Content", comment.Publication);
-            return View(comment);
+            _context.Add(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Comments/Edit/5
