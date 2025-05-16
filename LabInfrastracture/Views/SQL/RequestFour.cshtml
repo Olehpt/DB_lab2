@@ -1,0 +1,61 @@
+﻿@model IEnumerable<LabDomain.Model.Author>
+
+@{
+    ViewData["Title"] = "4";
+}
+<form asp-action="RequestFourPost" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Автори з більше ніж x авторствами</h1>
+            <div class="form-group">
+                <label for="t">Publication Type:</label>
+                <input type="number" class="form-control" id="item" name="item" value="@ViewBag.Item" required />
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Send</button>
+            <hr />
+
+            @if (Model == null)
+            {
+                <p>No items</p>
+            }
+            else
+            {
+                <h3>Results:</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pub in Model)
+                        {
+                            <tr>
+                                <td>@pub.AuthorId</td>
+                                <td>@pub.Name</td>
+                                <td>@pub.Email</td>
+                                <td>
+                                    @{
+                                        var counts = ViewBag.PublicationCounts as Dictionary<int, int>;
+                                        if (counts != null && counts.ContainsKey(pub.AuthorId))
+                                        {
+                                            @counts[pub.AuthorId]
+                                        }
+                                        else
+                                        {
+                                            @:0
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+</form>
+

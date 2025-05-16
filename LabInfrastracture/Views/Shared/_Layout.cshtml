@@ -44,6 +44,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Organizations" asp-action="Index">Organizations</a>
                         </li>
+                        <li class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                                SQL форми
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="SQL" asp-action="RequestOne">Публікації за переглядами</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="SQL" asp-action="RequestTwo">Публікації за предметною областю</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="SQL" asp-action="RequestThree">Публікації за типом</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="SQL" asp-action="RequestFour">Автори за к-стью авторств</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>

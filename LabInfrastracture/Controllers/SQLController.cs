@@ -1,0 +1,95 @@
+﻿using LabDomain.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+namespace LabInfrastructure.Controllers
+{
+    public class SQLController : Controller
+    {
+        private readonly DbLab2Context _context;
+        public SQLController(DbLab2Context context)
+        {
+            _context = context;
+        }
+        //1
+        [HttpGet]
+        public async Task<IActionResult> RequestOne(int? item)
+        {
+            if (item != null)
+            {
+                ViewBag.Item = item; 
+                var result = await _context.Publications
+                .FromSqlInterpolated($"SELECT * FROM Publication WHERE Views >= {item}")
+                .ToListAsync();
+                return View(result);
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RequestOnePost(int item)
+        {
+            return RedirectToAction("RequestOne", new { item });
+        }
+        //2
+        [HttpGet]
+        public async Task<IActionResult> RequestTwo(int? subjectid)
+        {
+            ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", subjectid);
+            if (subjectid != null)
+            {
+                var result = await _context.Publications
+                .FromSqlInterpolated($"SELECT * FROM Publication WHERE Subject = {subjectid}")
+                .ToListAsync();
+                return View(result);
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RequestTwoPost(int subjectid)
+        {
+            return RedirectToAction("RequestTwo", new { subjectid });
+        }
+        //3
+        [HttpGet]
+        public async Task<IActionResult> RequestThree(int? typeid)
+        {
+            ViewData["Type"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "Name", typeid);
+            if (typeid != null)
+            {
+                var result = await _context.Publications
+                .FromSqlInterpolated($"SELECT * FROM Publication WHERE PublicationType = {typeid}")
+                .ToListAsync();
+                return View(result);
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RequestThreePost(int typeid)
+        {
+            return RedirectToAction("RequestThree", new { typeid });
+        }
+        //4
+        public async Task<IActionResult> RequestFour(int? item)
+        {
+            if (item != null)
+            {
+                ViewBag.Item = item;
+                var result = await _context.Authors
+                .FromSqlInterpolated($"SELECT a.* FROM Author a JOIN ( SELECT Author, COUNT(*) AS MentionCount FROM Publication GROUP BY Author HAVING COUNT(*) >= {item}) p ON a.AuthorID = p.Author")
+                .ToListAsync();
+                var authorids = result.Select(a => a.AuthorId).ToList();
+                var P = await _context.Publications.Where(x => authorids.Contains(x.Author)).ToListAsync();
+                var P0 = P.GroupBy(p => p.Author).ToDictionary(g => g.Key, g => g.Count());
+                ViewBag.PublicationCounts = P0;
+                return View(result);
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RequestFourPost(int item)
+        {
+            return RedirectToAction("RequestFour", new {item});
+        }
+    }
+}

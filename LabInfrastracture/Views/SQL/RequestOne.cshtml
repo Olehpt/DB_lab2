@@ -1,0 +1,47 @@
+﻿@model IEnumerable<LabDomain.Model.Publication>
+
+@{
+    ViewData["Title"] = "1";
+}
+<form asp-action="RequestOnePost" method="post">
+    <div class="row">
+        <div class="col-md-4">
+			<h1>Публікації з більше ніж x переглядів</h1>
+            <div class="form-group">
+                <label for="item">Views:</label>
+                <input type="number" class="form-control" id="item" name="item" value="@ViewBag.Item" required />
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Send</button>
+            <hr />
+
+            @if (Model == null)
+            {
+                <p>No items</p>
+            }
+            else
+            {
+                <h3>Results:</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Views</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pub in Model)
+                        {
+                            <tr>
+                                <td>@pub.PublicationId</td>
+                                <td>@pub.Title</td>
+                                <td>@pub.Views</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+</form>

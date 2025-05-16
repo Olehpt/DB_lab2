@@ -1,0 +1,47 @@
+﻿@model IEnumerable<LabDomain.Model.Publication>
+
+@{
+    ViewData["Title"] = "3";
+}
+<form asp-action="RequestThreePost" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Публікації за типом</h1>
+            <div class="form-group">
+                <label for="t">Publication Type:</label>
+                <select name="typeid" class="form-control" asp-items="ViewBag.Type"></select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Send</button>
+            <hr />
+
+            @if (Model == null)
+            {
+                <p>No items</p>
+            }
+            else
+            {
+                <h3>Results:</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pub in Model)
+                        {
+                            <tr>
+                                <td>@pub.PublicationId</td>
+                                <td>@pub.Title</td>
+                                <td>@pub.PublicationTypeNavigation.Name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+</form>
