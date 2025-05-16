@@ -14,7 +14,7 @@
             <button type="submit" class="btn btn-primary mt-2">Send</button>
             <hr />
 
-            @if (Model == null)
+            @if (Model == null || !Model.Any())
             {
                 <p>No items</p>
             }

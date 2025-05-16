@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<LabDomain.Model.Author>
 
 @{
-    ViewData["Title"] = "4";
+    ViewData["Title"] = "5";
 }
-<form asp-action="RequestFourPost" method="post">
+<form asp-action="RequestFivePost" method="post">
     <div class="row">
         <div class="col-md-4">
-            <h1>Автори з більше ніж x авторствами</h1>
+            <h1>Автори за вмістом деяких коментарів</h1>
             <div class="form-group">
-                <label for="t">Publication Type:</label>
-                <input type="number" class="form-control" id="item" name="item" value="@ViewBag.Item" required />
+                <label for="t">Content:</label>
+                <input class="form-control" id="content" name="content" value="@ViewBag.Content" required />
             </div>
             <button type="submit" class="btn btn-primary mt-2">Send</button>
             <hr />
@@ -27,7 +27,7 @@
                             <th>Id</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Publications</th>
+                            <th>Comment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,15 +39,9 @@
                                 <td>@pub.Email</td>
                                 <td>
                                     @{
-                                        var counts = ViewBag.PublicationCounts as Dictionary<int, int>;
-                                        if (counts != null && counts.ContainsKey(pub.AuthorId))
-                                        {
-                                            @counts[pub.AuthorId]
-                                        }
-                                        else
-                                        {
-                                            @:0
-                                        }
+                                        var bag = (IEnumerable<dynamic>)ViewBag.ComBag;
+                                        var item = bag.FirstOrDefault(x => x.Author == pub.AuthorId);
+                                        @item.Content;
                                     }
                                 </td>
                             </tr>
@@ -59,4 +53,3 @@
     </div>
 
 </form>
-

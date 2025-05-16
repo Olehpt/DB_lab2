@@ -91,5 +91,27 @@ namespace LabInfrastructure.Controllers
         {
             return RedirectToAction("RequestFour", new {item});
         }
+        //5
+        [HttpGet]
+        public async Task<IActionResult> RequestFive(string? content)
+        {
+            if (content != null)
+            {
+                ViewBag.Content = content;
+                var pattern = $"%{content}%";
+                var result = await _context.Authors
+                .FromSqlInterpolated($"SELECT Distinct Author.* From Author inner join Comment on Author.AuthorID = Comment.Author Where Comment.Content Like {pattern} ")
+                .ToListAsync();
+                var comscontent = await _context.Comments.Where(x => x.Content.Contains(content)).Select(item => new {item.Content, item.Author}).ToListAsync();
+                ViewBag.ComBag = comscontent;
+                return View(result);
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RequestFivePost(string content)
+        {
+            return RedirectToAction("RequestFive", new { content });
+        }
     }
 }
