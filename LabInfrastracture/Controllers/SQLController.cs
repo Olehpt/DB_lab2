@@ -113,5 +113,46 @@ namespace LabInfrastructure.Controllers
         {
             return RedirectToAction("RequestFive", new { content });
         }
+        //6
+        [HttpGet]
+        public async Task<IActionResult> RequestSix(int? subjectid, int? amount)
+        {
+            if (amount == null) amount = 0;
+            ViewBag.amount = amount;
+            ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", subjectid);
+            if (subjectid != null)
+            {
+                var result = await _context.Authors
+                .FromSqlInterpolated($"SELECT a.AuthorID, a.Name, a.Email, a.Password, a.Info, a.SignUpDate, a.Organization FROM Author a Join Publication p ON p.Author = a.AuthorID Where p.Subject = {subjectid} Group By a.AuthorID, a.Name, a.Email, a.Password, a.Info, a.SignUpDate, a.Organization Having Count(p.PublicationID) >= {amount}")
+                .ToListAsync();
+                return View(result);
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RequestSixPost(int subjectid, int amount)
+        {
+            return RedirectToAction("RequestSix", new { subjectid, amount });
+        }
+        //7
+        public async Task<IActionResult> RequestSeven(int? subjectid, int? orgid)
+        {
+            ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", subjectid);
+            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Name", orgid);
+            if (subjectid != null)
+            {
+                var result = await _context.Authors
+                .FromSqlInterpolated($"SELECT a.* FROM Author a Join Publication p ON p.Author = a.AuthorID Where p.Subject = {subjectid} AND p.PublicationType = {orgid}")
+                .ToListAsync();
+                return View(result);
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RequestSevenPost(int subjectid, int orgid)
+        {
+            return RedirectToAction("RequestSeven", new { subjectid, orgid });
+        }
+        //8
     }
 }

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<LabDomain.Model.Author>
+
+@{
+    ViewData["Title"] = "7";
+}
+<form asp-action="RequestSevenPost" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Автори певної організації що мають публікації певної предментої області</h1>
+            <div class="form-group">
+                <label for="t">Subject:</label>
+                <select name="subjectid" class="form-control" asp-items="ViewBag.Subject"></select>
+                <label for="t">Organization:</label>
+                <select name="orgid" class="form-control" asp-items="ViewBag.Organization"></select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Send</button>
+            <hr />
+
+            @if (Model == null || !Model.Any())
+            {
+                <p>No items</p>
+            }
+            else
+            {
+                <h3>Results:</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pub in Model)
+                        {
+                            <tr>
+                                <td>@pub.AuthorId</td>
+                                <td>@pub.Name</td>
+                                <td>@pub.Email</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+</form>
+
