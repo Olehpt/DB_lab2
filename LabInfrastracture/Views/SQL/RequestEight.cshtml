@@ -1,0 +1,50 @@
+﻿@model IEnumerable<LabDomain.Model.Comment>
+
+@{
+    ViewData["Title"] = "8";
+}
+<form asp-action="RequestEightPost" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Коментарі до публікацій з певної предметної області</h1>
+            <div class="form-group">
+                <label for="t">Subject:</label>
+                <select name="subjectid" class="form-control" asp-items="ViewBag.Subject"></select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Send</button>
+            <hr />
+
+            @if (Model == null || !Model.Any())
+            {
+                <p>No items</p>
+            }
+            else
+            {
+                <h3>Results:</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Content</th>
+                            <th>AuthorId</th>
+                            <th>Publication date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pub in Model)
+                        {
+                            <tr>
+                                <td>@pub.CommentId</td>
+                                <td>@pub.Content</td>
+                                <td>@pub.Author</td>
+                                <td>@pub.PublicationDate</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+</form>
+

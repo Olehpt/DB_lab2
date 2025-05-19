@@ -154,5 +154,22 @@ namespace LabInfrastructure.Controllers
             return RedirectToAction("RequestSeven", new { subjectid, orgid });
         }
         //8
+        public async Task<IActionResult> RequestEight(int? subjectid)
+        {
+            ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", subjectid);
+            if (subjectid != null)
+            {
+                var result = await _context.Comments
+                .FromSqlInterpolated($"SELECT c.* FROM Comment c Join Publication p ON p.PublicationID = c.Publication Where p.Subject = {subjectid}")
+                .ToListAsync();
+                return View(result);
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RequestEightPost(int subjectid)
+        {
+            return RedirectToAction("RequestEight", new { subjectid });
+        }
     }
 }
