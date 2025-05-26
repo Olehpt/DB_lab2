@@ -115,43 +115,30 @@ namespace LabInfrastructure.Controllers
         }
         //6
         [HttpGet]
-        public async Task<IActionResult> RequestSix(int? subjectid, int? amount)
+        public async Task<IActionResult> RequestSix()
         {
-            if (amount == null) amount = 0;
-            ViewBag.amount = amount;
-            ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", subjectid);
-            if (subjectid != null)
-            {
-                var result = await _context.Authors
-                .FromSqlInterpolated($"SELECT a.AuthorID, a.Name, a.Email, a.Password, a.Info, a.SignUpDate, a.Organization FROM Author a Join Publication p ON p.Author = a.AuthorID Where p.Subject = {subjectid} Group By a.AuthorID, a.Name, a.Email, a.Password, a.Info, a.SignUpDate, a.Organization Having Count(p.PublicationID) >= {amount}")
+            var result = await _context.Authors
+                .FromSqlInterpolated($"SELECT a.* FROM Author a WHERE NOT EXISTS (SELECT pt.PublicationTypeID FROM PublicationType pt WHERE NOT EXISTS (SELECT 1 FROM Publication p JOIN Comment c ON c.Publication = p.PublicationID WHERE p.PublicationType = pt.PublicationTypeID AND c.Author = a.AuthorID))")
                 .ToListAsync();
-                return View(result);
-            }
-            return View();
+            return View(result);
         }
         [HttpPost]
-        public IActionResult RequestSixPost(int subjectid, int amount)
+        public IActionResult RequestSixPost()
         {
-            return RedirectToAction("RequestSix", new { subjectid, amount });
+            return RedirectToAction("RequestSix");
         }
         //7
-        public async Task<IActionResult> RequestSeven(int? subjectid, int? orgid)
+        public async Task<IActionResult> RequestSeven()
         {
-            ViewData["Subject"] = new SelectList(_context.Subjects, "SubjectId", "Name", subjectid);
-            ViewData["Organization"] = new SelectList(_context.Organizations, "OrganizationId", "Name", orgid);
-            if (subjectid != null)
-            {
-                var result = await _context.Authors
-                .FromSqlInterpolated($"SELECT a.* FROM Author a Join Publication p ON p.Author = a.AuthorID Where p.Subject = {subjectid} AND p.PublicationType = {orgid}")
+            var result = await _context.Subjects
+                .FromSqlInterpolated($"SELECT s.*\r\nFROM Subject s\r\nWHERE NOT EXISTS (\r\n    SELECT p.PublicationID\r\n    FROM Publication p\r\n    WHERE p.Subject = s.SubjectID\r\n    AND NOT EXISTS (\r\n        SELECT 1\r\n        FROM Comment c\r\n        WHERE c.Publication = p.PublicationID\r\n    )\r\n);")
                 .ToListAsync();
-                return View(result);
-            }
-            return View();
+            return View(result);
         }
         [HttpPost]
-        public IActionResult RequestSevenPost(int subjectid, int orgid)
+        public IActionResult RequestSevenPost()
         {
-            return RedirectToAction("RequestSeven", new { subjectid, orgid });
+            return RedirectToAction("RequestSeven");
         }
         //8
         public async Task<IActionResult> RequestEight(int? subjectid)

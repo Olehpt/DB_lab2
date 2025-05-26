@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "D:\\Projects\\DB_lab2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|d:\\projects\\db_lab2\\labinfrastracture\\views\\sql\\requesteight.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|solutionrelative:labinfrastracture\\views\\sql\\requesteight.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|d:\\projects\\db_lab2\\labinfrastracture\\views\\sql\\requestseven.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|solutionrelative:labinfrastracture\\views\\sql\\requestseven.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|d:\\projects\\db_lab2\\labinfrastracture\\controllers\\sqlcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -13,10 +13,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|d:\\projects\\db_lab2\\labinfrastracture\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|solutionrelative:labinfrastracture\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|d:\\projects\\db_lab2\\labinfrastracture\\views\\sql\\requestseven.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A128E7C3-0DB0-4364-AFBD-0F8C9A95476E}|LabInfrastracture\\LabInfrastructure.csproj|solutionrelative:labinfrastracture\\views\\sql\\requestseven.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,32 +22,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "RequestSeven.cshtml",
               "DocumentMoniker": "D:\\Projects\\DB_lab2\\LabInfrastracture\\Views\\SQL\\RequestSeven.cshtml",
               "RelativeDocumentMoniker": "LabInfrastracture\\Views\\SQL\\RequestSeven.cshtml",
-              "ToolTip": "D:\\Projects\\DB_lab2\\LabInfrastracture\\Views\\SQL\\RequestSeven.cshtml",
-              "RelativeToolTip": "LabInfrastracture\\Views\\SQL\\RequestSeven.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAApAAAAAAAAAA==",
+              "ToolTip": "D:\\Projects\\DB_lab2\\LabInfrastracture\\Views\\SQL\\RequestSeven.cshtml*",
+              "RelativeToolTip": "LabInfrastracture\\Views\\SQL\\RequestSeven.cshtml*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-17T10:22:49.377Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RequestEight.cshtml",
-              "DocumentMoniker": "D:\\Projects\\DB_lab2\\LabInfrastracture\\Views\\SQL\\RequestEight.cshtml",
-              "RelativeDocumentMoniker": "LabInfrastracture\\Views\\SQL\\RequestEight.cshtml",
-              "ToolTip": "D:\\Projects\\DB_lab2\\LabInfrastracture\\Views\\SQL\\RequestEight.cshtml",
-              "RelativeToolTip": "LabInfrastracture\\Views\\SQL\\RequestEight.cshtml",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABkAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-19T14:25:21.947Z",
+              "WhenOpened": "2025-05-25T16:12:33.596Z",
               "EditorCaption": ""
             },
             {
@@ -62,7 +45,7 @@
               "RelativeDocumentMoniker": "LabInfrastracture\\Controllers\\SQLController.cs",
               "ToolTip": "D:\\Projects\\DB_lab2\\LabInfrastracture\\Controllers\\SQLController.cs",
               "RelativeToolTip": "LabInfrastracture\\Controllers\\SQLController.cs",
-              "ViewState": "AgIAAI4AAAAAAAAAAAAuwKIAAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAAAIwAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-16T07:26:08.254Z",
               "EditorCaption": ""
@@ -77,8 +60,7 @@
               "RelativeToolTip": "LabInfrastracture\\Views\\Shared\\_Layout.cshtml",
               "ViewState": "AgIAACoAAAAAAAAAAAAAAEkAAAB+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-16T07:26:16.828Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-16T07:26:16.828Z"
             }
           ]
         }

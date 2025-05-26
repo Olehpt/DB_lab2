@@ -6,13 +6,7 @@
 <form asp-action="RequestSixPost" method="post">
     <div class="row">
         <div class="col-md-4">
-            <h1>Автори за к-стю публікацій з певної предметної області</h1>
-            <div class="form-group">
-                <label for="t">Amount:</label>
-                <input type="number" class="form-control" id="amount" name="amount" value="@ViewBag.amount" required />
-                <label for="t">Subject:</label>
-                <select name="subjectid" class="form-control" asp-items="ViewBag.Subject"></select>
-            </div>
+            <h1>Автори які залишили коментарі під публікаціями усіх типів</h1>
             <button type="submit" class="btn btn-primary mt-2">Send</button>
             <hr />
 
